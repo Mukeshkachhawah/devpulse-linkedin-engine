@@ -8,10 +8,10 @@ model = "gpt-5.4"
 paths = [".agents/skills"]
 
 [adapters.backlog.scripts]
-sync = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-sync.ps1"
-add = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-add.ps1"
-done = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-done.ps1"
-edit = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-edit.ps1"
+sync = "adapters/backlog-sync.cmd"
+add = "adapters/backlog-add.cmd"
+done = "adapters/backlog-done.cmd"
+edit = "adapters/backlog-edit.cmd"
 
 [concurrency]
 max_concurrency = 1
