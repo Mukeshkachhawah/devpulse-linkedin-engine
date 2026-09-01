@@ -4,4 +4,4 @@
 
 ## Inbox
 
-1. [ ] Daily LinkedIn scheduler sentinel — keep open; never execute or complete #automation
+1. [x] Daily LinkedIn scheduler sentinel — open only while automation is enabled #automation

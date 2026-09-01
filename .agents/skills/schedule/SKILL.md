@@ -10,10 +10,11 @@ Read `.noodle/mise.json`, `settings/linkedin-daily-post.json`, and
 `state/linkedin-daily-post.json`. Write only `.noodle/orders-next.json`; Noodle
 promotes that file atomically.
 
-The backlog contains a permanent item named `Daily LinkedIn scheduler sentinel`.
-It exists only because Noodle 0.1.5 wakes the scheduler when a backlog item is
-open. Never schedule, execute, edit, or complete that sentinel. It is not work;
-the daily standalone order below is the only work this scheduler may create.
+The backlog contains an activation item named `Daily LinkedIn scheduler
+sentinel`. The enable/disable scripts open or close it because Noodle 0.1.5
+wakes the scheduler only while a backlog item is open. Never schedule, execute,
+edit, or complete that sentinel yourself. It is not work; the daily standalone
+order below is the only work this scheduler may create.
 
 Use `noodle schema mise` and `noodle schema orders` as the current schema source
 of truth. Never copy active orders into the new-order file, and never schedule a

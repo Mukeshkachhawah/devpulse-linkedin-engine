@@ -2,7 +2,7 @@ mode = "auto"
 
 [routing.defaults]
 provider = "codex"
-model = "gpt-5.4"
+model = "gpt-5.6-terra"
 
 [skills]
 paths = [".agents/skills"]
