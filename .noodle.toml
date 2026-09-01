@@ -8,10 +8,10 @@ model = "gpt-5.4"
 paths = [".agents/skills"]
 
 [adapters.backlog.scripts]
-sync = "adapters/backlog-sync.cmd"
-add = "adapters/backlog-add.cmd"
-done = "adapters/backlog-done.cmd"
-edit = "adapters/backlog-edit.cmd"
+sync = "adapters/backlog-sync"
+add = "adapters/backlog-add"
+done = "adapters/backlog-done"
+edit = "adapters/backlog-edit"
 
 [concurrency]
 max_concurrency = 1

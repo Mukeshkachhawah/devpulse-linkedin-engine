@@ -8,13 +8,7 @@ if (-not (Test-Path -LiteralPath $enableMarker)) {
 }
 
 Set-Location -LiteralPath $projectDir
-$env:NOODLE_NO_BROWSER = '1'
-
-$statusOutput = & noodle status 2>&1 | Out-String
-if ($LASTEXITCODE -eq 0 -and $statusOutput -match '(?i)running') {
-    & noodle --project-dir $projectDir event emit 'linkedin.daily' --payload '{"source":"windows-task-scheduler"}'
-    exit $LASTEXITCODE
-}
-
-& noodle --project-dir $projectDir start
+$gitShDir = 'C:\Program Files\Git\bin'
+$env:PATH = "$gitShDir;$env:PATH"
+& noodle --project-dir $projectDir event emit 'linkedin.daily' --payload '{"source":"windows-task-scheduler"}'
 exit $LASTEXITCODE

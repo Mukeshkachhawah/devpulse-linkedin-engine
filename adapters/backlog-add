@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+TODOS_FILE="${NOODLE_TODOS_FILE:-todos.md}"
+payload=$(cat)
+title=$(printf '%s' "$payload" | sed -n 's/.*"title"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n1)
+[ -n "$title" ] || { echo "title required" >&2; exit 1; }
+
+next_id=$(sed -n 's/.*next-id:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$TODOS_FILE" | head -n1)
+[ -n "$next_id" ] || next_id=1
+printf '%s. [ ] %s\n' "$next_id" "$title" >> "$TODOS_FILE"
+
+next_next=$((next_id + 1))
+tmp="$TODOS_FILE.tmp"
+sed "s/next-id:[[:space:]]*[0-9][0-9]*/next-id: $next_next/" "$TODOS_FILE" > "$tmp"
+mv "$tmp" "$TODOS_FILE"
+echo "$next_id"

@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+TODOS_FILE="${NOODLE_TODOS_FILE:-todos.md}"
+[ -f "$TODOS_FILE" ] || exit 0
+
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+section=""
+while IFS= read -r line || [ -n "$line" ]; do
+  case "$line" in
+    '## '*) section=$(printf '%s' "${line#'## '}" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//'); continue ;;
+  esac
+
+  if printf '%s\n' "$line" | grep -Eq '^[0-9]+\. \[[ xX]\] '; then
+    id=$(printf '%s\n' "$line" | sed -E 's/^([0-9]+)\..*/\1/')
+    mark=$(printf '%s\n' "$line" | sed -E 's/^[0-9]+\. \[([ xX])\].*/\1/')
+    title=$(printf '%s\n' "$line" | sed -E 's/^[0-9]+\. \[[ xX]\] //')
+    status="open"
+    [ "$mark" = "x" ] || [ "$mark" = "X" ] && status="done"
+    printf '{"id":"%s","title":"%s","status":"%s"' \
+      "$(json_escape "$id")" "$(json_escape "$title")" "$status"
+    [ -n "$section" ] && printf ',"section":"%s"' "$(json_escape "$section")"
+    printf '}\n'
+  fi
+done < "$TODOS_FILE"

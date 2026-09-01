@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+id=${1:-}
+[ -n "$id" ] || { echo "id required" >&2; exit 1; }
+TODOS_FILE="${NOODLE_TODOS_FILE:-todos.md}"
+tmp="$TODOS_FILE.tmp"
+sed "s/^$id\. \[ \]/$id. [x]/" "$TODOS_FILE" > "$tmp"
+mv "$tmp" "$TODOS_FILE"
