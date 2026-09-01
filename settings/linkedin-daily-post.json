@@ -1,7 +1,7 @@
 {
   "time_zone": "Asia/Kolkata",
   "posting_time": "09:00",
-  "expected_account": null,
+  "expected_account": "Mukesh Kachhawah",
   "topics": [
     "software development",
     "full-stack development",

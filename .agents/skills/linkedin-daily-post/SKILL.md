@@ -20,8 +20,20 @@ Read:
 - `state/linkedin-daily-post.json` for idempotency.
 - The dispatched order prompt to determine `DRY RUN` or `PUBLISH MODE`.
 
-Use the local date in the configured time zone. Store the reviewed draft at
-`runs/YYYY-MM-DD/post.md` and the outcome at `runs/YYYY-MM-DD/result.json`.
+Use the local date in the configured time zone. Treat `runs/` as an append-only
+archive: never delete, rename, truncate, or overwrite an existing file or dated
+folder.
+
+For each run, create or reuse `runs/YYYY-MM-DD/` and choose the first available
+filename pair:
+
+- `post.md` and `result.json`
+- `post-2.md` and `result-2.json`
+- `post-3.md` and `result-3.json`, continuing numerically as needed
+
+Use the same suffix for the reviewed draft and its outcome. A new calendar day
+must always use its own new `runs/YYYY-MM-DD/` folder, leaving every earlier
+date untouched.
 
 ## Generate
 
@@ -66,7 +78,7 @@ When the prompt says `DRY RUN`:
 
 1. Generate and review the post.
 2. Do not open LinkedIn or any browser.
-3. Write `result.json` with `mode: "dry_run"`, `reviewed: true`,
+3. Write the paired result file with `mode: "dry_run"`, `reviewed: true`,
    `published: false`, and `status: "generated"`.
 4. Do not update `state/linkedin-daily-post.json`.
 5. Report that generation succeeded and publishing was intentionally skipped.
@@ -79,16 +91,19 @@ When the prompt says `PUBLISH MODE`, continue only if all are true:
 2. `expected_account` is non-empty.
 3. Neither `last_attempt_date` nor `last_success_date` equals today's local
    date.
-4. A supported LinkedIn connector with create-post capability or the Codex
-   authenticated Browser integration is available.
+4. A supported LinkedIn connector with create-post capability, the Codex
+   authenticated Browser integration, or Antigravity's authenticated built-in
+   `/browser` integration is available. When running in Antigravity, use its
+   built-in Chrome browser agent; do not install or invoke Playwright.
 5. LinkedIn is already authenticated. Never request, inspect, read, log, or
    expose passwords, cookies, session tokens, API secrets, browser storage, or
    credential files.
 6. The visible active account identity exactly matches `expected_account`.
 
 If authentication is required, stop before opening the composer and report:
-`Authentication required: open LinkedIn in the Codex in-app Browser, sign in
-there directly, then rerun the workflow.` Never ask for credentials in chat.
+`Authentication required: open LinkedIn in the same controlled browser that
+will run this workflow, sign in there directly, then rerun the workflow.` Never
+ask for credentials in chat.
 
 If the browser/connector is unavailable, account identity is ambiguous, the
 account differs, or any other gate fails, do not publish. Record and report the
@@ -97,8 +112,10 @@ specific failure.
 ## Publish workflow
 
 Use a purpose-built LinkedIn create-post connector if one is available;
-otherwise use the authenticated Codex Browser integration. Do not use raw
-cookies, copied tokens, unofficial APIs, or credential automation.
+otherwise use the authenticated browser integration provided by the active
+agent environment (Codex Browser or Antigravity `/browser`). Do not install
+Playwright for Antigravity browser work. Do not use raw cookies, copied tokens,
+unofficial APIs, or credential automation.
 
 1. Open the LinkedIn home/feed page.
 2. Verify the active account identity again against `expected_account`.
@@ -122,10 +139,10 @@ After a publish-mode attempt, update `state/linkedin-daily-post.json` with
 today's local date as `last_attempt_date`, the final status, and a post URL when
 available. Set `last_success_date` only after visible success is verified.
 
-Write `result.json` containing the local date, mode, reviewed flag, published
-boolean, status, expected account, verified account when available, post URL
-when available, and a short error when unsuccessful. Never include secrets or
-browser session data.
+Write the paired result file containing the local date, mode, reviewed flag,
+published boolean, status, expected account, verified account when available,
+post URL when available, and a short error when unsuccessful. Never include
+secrets or browser session data.
 
 Report exactly whether publishing succeeded. A draft, filled composer, click,
 or ambiguous UI state is not success.

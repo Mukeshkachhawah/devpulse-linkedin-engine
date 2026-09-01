@@ -18,7 +18,11 @@ if (-not (Test-Path -LiteralPath (Join-Path $gitShDir 'sh.exe'))) {
     throw 'Git for Windows sh.exe was not found at C:\Program Files\Git\bin\sh.exe.'
 }
 
-$env:PATH = "$gitShDir;$env:PATH"
+$codexResolver = Join-Path $PSScriptRoot 'Resolve-Codex.ps1'
+$codexExecutable = & $codexResolver
+$codexDir = Split-Path -Parent $codexExecutable
+
+$env:PATH = "$codexDir;$gitShDir;$env:PATH"
 $env:NOODLE_NO_BROWSER = '1'
 Set-Location -LiteralPath $projectDir
 & noodle --project-dir $projectDir start
