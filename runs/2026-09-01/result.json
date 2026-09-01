@@ -1,0 +1,9 @@
+{
+  "local_date": "2026-09-01",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "content_path": "runs/2026-09-01/post.md",
+  "note": "Publishing intentionally skipped during initial setup."
+}

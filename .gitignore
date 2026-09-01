@@ -1,0 +1,5 @@
+# Noodle runtime state
+.noodle/
+
+# Local enable marker: create only after the authenticated first-post test.
+settings/linkedin-daily-post.enabled

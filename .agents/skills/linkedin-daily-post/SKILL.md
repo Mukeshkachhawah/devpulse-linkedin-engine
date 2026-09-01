@@ -1,0 +1,131 @@
+---
+name: linkedin-daily-post
+description: Generate, review, and—only when explicitly enabled—publish one original daily LinkedIn post about practical software engineering.
+schedule: Standalone single-stage order once per local calendar day at or after the configured posting time, only when enabled and not already attempted that day.
+---
+
+# LinkedIn daily post
+
+Create exactly one concise, useful LinkedIn post. In `DRY RUN` mode, generate
+and review the post but never open LinkedIn or perform any external action. In
+`PUBLISH MODE`, follow every gate below and fail closed if a gate cannot be
+verified.
+
+## Inputs and state
+
+Read:
+
+- `settings/linkedin-daily-post.json` for time zone, posting time, expected
+  account, and topic scope.
+- `state/linkedin-daily-post.json` for idempotency.
+- The dispatched order prompt to determine `DRY RUN` or `PUBLISH MODE`.
+
+Use the local date in the configured time zone. Store the reviewed draft at
+`runs/YYYY-MM-DD/post.md` and the outcome at `runs/YYYY-MM-DD/result.json`.
+
+## Generate
+
+Choose one focused idea from software development, full-stack development, AI,
+programming, developer productivity, lessons learned, tools, or practical
+engineering. Rotate topics and angles by checking previous files under `runs/`.
+
+The post must:
+
+- Be original; never copy, closely paraphrase, or imitate another person's post.
+- Use a natural developer voice and avoid generic AI phrasing.
+- Start with a strong, specific hook.
+- Use short paragraphs and bullets only when they improve clarity.
+- Stay concise and deliver a practical idea, tradeoff, checklist, or lesson.
+- End with 3-5 genuinely relevant hashtags.
+- Use no emojis by default and never use excessive emojis.
+- Avoid fake claims, invented metrics, fabricated personal experience, and
+  unsourced time-sensitive facts.
+- Avoid spammy engagement bait, forced questions, and requests to like, share,
+  comment, or follow.
+
+Do not browse other people's LinkedIn posts for inspiration. If a current fact
+is essential, verify it using an authoritative source; otherwise choose a
+timeless engineering topic.
+
+## Review
+
+Before any publishing action, revise the draft once using this checklist:
+
+- The hook earns attention without exaggeration.
+- The post makes one clear point and includes concrete value.
+- Every claim is supportable and no personal experience was invented.
+- The language sounds human, specific, and non-repetitive.
+- Paragraphs are short, formatting is clean, and there are 3-5 hashtags.
+- The content is not substantially similar to a prior file in `runs/`.
+
+If the draft fails any item, rewrite it. Save only the approved version.
+
+## Dry run
+
+When the prompt says `DRY RUN`:
+
+1. Generate and review the post.
+2. Do not open LinkedIn or any browser.
+3. Write `result.json` with `mode: "dry_run"`, `reviewed: true`,
+   `published: false`, and `status: "generated"`.
+4. Do not update `state/linkedin-daily-post.json`.
+5. Report that generation succeeded and publishing was intentionally skipped.
+
+## Publish gates
+
+When the prompt says `PUBLISH MODE`, continue only if all are true:
+
+1. `settings/linkedin-daily-post.enabled` exists.
+2. `expected_account` is non-empty.
+3. Neither `last_attempt_date` nor `last_success_date` equals today's local
+   date.
+4. A supported LinkedIn connector with create-post capability or the Codex
+   authenticated Browser integration is available.
+5. LinkedIn is already authenticated. Never request, inspect, read, log, or
+   expose passwords, cookies, session tokens, API secrets, browser storage, or
+   credential files.
+6. The visible active account identity exactly matches `expected_account`.
+
+If authentication is required, stop before opening the composer and report:
+`Authentication required: open LinkedIn in the Codex in-app Browser, sign in
+there directly, then rerun the workflow.` Never ask for credentials in chat.
+
+If the browser/connector is unavailable, account identity is ambiguous, the
+account differs, or any other gate fails, do not publish. Record and report the
+specific failure.
+
+## Publish workflow
+
+Use a purpose-built LinkedIn create-post connector if one is available;
+otherwise use the authenticated Codex Browser integration. Do not use raw
+cookies, copied tokens, unofficial APIs, or credential automation.
+
+1. Open the LinkedIn home/feed page.
+2. Verify the active account identity again against `expected_account`.
+3. Check the account's recent posts and the local ledger for a same-day
+   duplicate. Do not like, react, comment, message, follow, or connect while
+   checking.
+4. Open the new-post composer.
+5. Paste the reviewed content exactly once.
+6. Confirm the composer contains the full reviewed draft and no unintended
+   attachment, audience change, mention, or link preview.
+7. Verify the active account a final time.
+8. Select Publish once. Never retry the publish click if the result is
+   ambiguous; inspect the account's recent posts first.
+9. Verify success from the visible confirmation or the new post on the account.
+
+Do not perform any other LinkedIn action.
+
+## Record and report
+
+After a publish-mode attempt, update `state/linkedin-daily-post.json` with
+today's local date as `last_attempt_date`, the final status, and a post URL when
+available. Set `last_success_date` only after visible success is verified.
+
+Write `result.json` containing the local date, mode, reviewed flag, published
+boolean, status, expected account, verified account when available, post URL
+when available, and a short error when unsuccessful. Never include secrets or
+browser session data.
+
+Report exactly whether publishing succeeded. A draft, filled composer, click,
+or ambiguous UI state is not success.

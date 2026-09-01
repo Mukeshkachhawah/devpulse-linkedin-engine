@@ -1,0 +1,27 @@
+mode = "auto"
+
+[routing.defaults]
+provider = "codex"
+model = "gpt-5.4"
+
+[skills]
+paths = [".agents/skills"]
+
+[adapters.backlog.scripts]
+sync = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-sync.ps1"
+add = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-add.ps1"
+done = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-done.ps1"
+edit = "powershell -NoProfile -ExecutionPolicy Bypass -File adapters/backlog-edit.ps1"
+
+[concurrency]
+max_concurrency = 1
+
+[runtime]
+default = "process"
+
+[runtime.process]
+max_concurrent = 1
+
+[server]
+port = 3000
+enabled = true
