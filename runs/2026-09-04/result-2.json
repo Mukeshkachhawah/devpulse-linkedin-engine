@@ -1,0 +1,12 @@
+{
+  "local_date": "2026-09-04",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "verified_account": null,
+  "post_url": null,
+  "error": null,
+  "note": "Second draft for the day in simpler English. Publishing skipped."
+}

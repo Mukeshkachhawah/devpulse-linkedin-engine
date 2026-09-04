@@ -1,0 +1,13 @@
+{
+  "local_date": "2026-09-04",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "verified_account": null,
+  "post_url": null,
+  "error": null,
+  "note": "Third draft inspired by AI_Engineering_Masterclass 00_START_HERE. Publishing skipped.",
+  "source_folder": "AI_Engineering_Masterclass/00_START_HERE"
+}

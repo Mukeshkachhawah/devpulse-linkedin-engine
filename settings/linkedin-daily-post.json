@@ -1,15 +1,15 @@
-{
-  "time_zone": "Asia/Kolkata",
-  "posting_time": "10:40",
-  "expected_account": "Mukesh Kachhawah",
-  "topics": [
-    "software development",
-    "full-stack development",
-    "AI",
-    "programming",
-    "developer productivity",
-    "engineering lessons",
-    "developer tools",
-    "practical engineering"
-  ]
+﻿{
+    "time_zone":  "Asia/Kolkata",
+    "posting_time":  "10:40",
+    "expected_account":  "Mukesh Kachhawah",
+    "topics":  [
+                   "software development",
+                   "full-stack development",
+                   "AI",
+                   "programming",
+                   "developer productivity",
+                   "engineering lessons",
+                   "developer tools",
+                   "practical engineering"
+               ]
 }
