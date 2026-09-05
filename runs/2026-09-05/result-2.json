@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-05",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "verified_account": null,
+  "post_url": null,
+  "error": null,
+  "note": "Day 1 learning post from 01_History_of_AI/01_AI_Ka_Janam.md; diary format as requested"
+}
