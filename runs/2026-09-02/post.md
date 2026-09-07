@@ -1,16 +1,20 @@
-AI-generated code should earn trust the same way any other code does: with evidence.
+﻿AI Engineering Path | History of AI â€” The First AI Winter
 
-The dangerous shortcut is not using AI. It is accepting a plausible diff without checking the assumptions behind it.
+In the 1960s, many AI claims were very bold. Some researchers said machines would soon do most human work.
 
-Before merging AI-assisted code, verify four things:
+Early demos looked strong in small problems: games, logic tasks, and limited language examples. Real-world problems were different.
 
-- The change solves the actual requirement, not a nearby one
-- Tests cover failure paths and edge cases
-- New dependencies and permissions are justified
-- Logs, errors, and rollback behavior are clear
+Key points:
 
-Then read the diff as if it came from an unfamiliar contributor. Trace inputs, state changes, and side effects instead of judging how polished the code looks.
+- Search problems grew too large for the computers of that time
+- Systems worked in toy settings, then failed outside them
+- In 1973, the Lighthill Report in the UK said AI had not delivered major promises
+- Funding fell in the UK and the US
+- Broad â€œthinking machinesâ€ work slowed; only some narrow projects continued
 
-AI can make implementation faster. It does not make validation optional.
+Takeaway:
+A demo in a small world is not proof for the open world. Scale, cost, and real use decide if an AI idea survives.
 
-#SoftwareEngineering #AICoding #CodeReview #DeveloperProductivity
+Next: History of AI â€” Expert systems and the short boom between winters.
+
+#AIEngineering #HistoryOfAI #MachineLearning #ContinuousLearning #CareerGrowth

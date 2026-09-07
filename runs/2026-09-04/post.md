@@ -1,15 +1,20 @@
-Do not start a big code cleanup if you do not know when to stop.
+﻿AI Engineering Path | History of AI â€” The Second AI Winter
 
-Before you change the code, write a simple plan:
+The second AI Winter came when expert systems and special AI hardware could not keep their promises.
 
-- What must still work the same after the change
-- Which tests will prove it still works
-- What messy or repeated code you want to clean
-- What speed must stay the same
-- When you will stop cleaning and ship the work
+Key points:
 
-This makes “improve the code” a clear task. Other people can review it. You can finish it.
+- Writing and updating expert rules was slow, costly, and incomplete
+- Systems broke on new cases outside their rule list
+- Many tools could not move easily from one domain to another
+- Special Lisp machines lost to cheaper general computers
+- Funding fell again; many companies avoided the AI label
 
-A good cleanup is not perfect code. It is cleaner code that makes the next real change easier and safer.
+The field did not die. It became more careful and moved toward methods that learn from data.
 
-#SoftwareEngineering #Refactoring #CodeQuality #DeveloperProductivity
+Takeaway:
+When cost, maintenance, and real results fail, hype cannot save a product. That pressure pushed AI toward Machine Learning.
+
+Next: History of AI â€” Lessons from AI Winters for builders today.
+
+#AIEngineering #HistoryOfAI #MachineLearning #ContinuousLearning #CareerGrowth

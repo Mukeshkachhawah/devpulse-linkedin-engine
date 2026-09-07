@@ -1,0 +1,18 @@
+﻿{
+  "series": "AI Engineering Path | History of AI",
+  "note": "History arc is now part of September date-wise calendar. Full month index: runs/2026-09-month-index.json",
+  "publish_order": [
+    { "order": 1,  "date": "2026-08-28", "path": "runs/2026-08-28/post.md", "title": "The Question That Started It" },
+    { "order": 2,  "date": "2026-08-29", "path": "runs/2026-08-29/post.md", "title": "Early Groundwork" },
+    { "order": 3,  "date": "2026-08-30", "path": "runs/2026-08-30/post.md", "title": "Dartmouth 1956" },
+    { "order": 4,  "date": "2026-08-31", "path": "runs/2026-08-31/post.md", "title": "The First Programs" },
+    { "order": 5,  "date": "2026-09-01", "path": "runs/2026-09-01/post.md", "title": "What Is an AI Winter?" },
+    { "order": 6,  "date": "2026-09-02", "path": "runs/2026-09-02/post.md", "title": "The First AI Winter" },
+    { "order": 7,  "date": "2026-09-03", "path": "runs/2026-09-03/post.md", "title": "Expert Systems Boom" },
+    { "order": 8,  "date": "2026-09-04", "path": "runs/2026-09-04/post.md", "title": "The Second AI Winter" },
+    { "order": 9,  "date": "2026-09-05", "path": "runs/2026-09-05/post.md", "title": "Lessons from AI Winters" },
+    { "order": 10, "date": "2026-09-06", "path": "runs/2026-09-06/post.md", "title": "Machine Learning Rises" },
+    { "order": 11, "date": "2026-09-07", "path": "runs/2026-09-07/post.md", "title": "Deep Learning Boom" },
+    { "order": 12, "date": "2026-09-08", "path": "runs/2026-09-08/post.md", "title": "The LLM Era" }
+  ]
+}

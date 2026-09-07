@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-07",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "file": "post-2.md",
+  "note": "Standalone practical engineering post (not AI Engineering roadmap). Publishing intentionally skipped."
+}

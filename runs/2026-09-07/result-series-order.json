@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-07",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "series": "AI Engineering Path | History of AI",
+  "source": "AI_Engineering_Masterclass/01_History_of_AI",
+  "date_index": "runs/history-of-ai-series-dates.json",
+  "publish_order": [
+    { "order": 1,  "date": "2026-08-28", "file": "runs/2026-08-28/post.md", "title": "The Question That Started It" },
+    { "order": 2,  "date": "2026-08-29", "file": "runs/2026-08-29/post.md", "title": "Early Groundwork" },
+    { "order": 3,  "date": "2026-08-30", "file": "runs/2026-08-30/post.md", "title": "Dartmouth 1956" },
+    { "order": 4,  "date": "2026-08-31", "file": "runs/2026-08-31/post.md", "title": "The First Programs" },
+    { "order": 5,  "date": "2026-09-01", "file": "runs/2026-09-01/post-2.md", "title": "What Is an AI Winter?" },
+    { "order": 6,  "date": "2026-09-02", "file": "runs/2026-09-02/post-2.md", "title": "The First AI Winter" },
+    { "order": 7,  "date": "2026-09-03", "file": "runs/2026-09-03/post-2.md", "title": "Expert Systems Boom" },
+    { "order": 8,  "date": "2026-09-04", "file": "runs/2026-09-04/post-4.md", "title": "The Second AI Winter" },
+    { "order": 9,  "date": "2026-09-05", "file": "runs/2026-09-05/post-16.md", "title": "Lessons from AI Winters" },
+    { "order": 10, "date": "2026-09-06", "file": "runs/2026-09-06/post.md", "title": "Machine Learning Rises" },
+    { "order": 11, "date": "2026-09-07", "file": "runs/2026-09-07/post.md", "title": "Deep Learning Boom" },
+    { "order": 12, "date": "2026-09-08", "file": "runs/2026-09-08/post.md", "title": "The LLM Era" }
+  ],
+  "note": "Original drafts still remain under runs/2026-09-05/. Dated copies are the schedule. Existing post.md files were not overwritten."
+}
