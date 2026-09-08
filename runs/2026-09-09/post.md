@@ -1,20 +1,22 @@
-AI Engineering Path | Mathematics for AI — Why Math Matters
+A retry that is not idempotent is just a slower way to create duplicates.
 
-History showed what happened. Math shows why models work.
+Timeout. Network blip. User double-clicks. The client fires again.
 
-You do not need to become a mathematician overnight. You do need enough math to read papers, debug training, and explain tradeoffs.
+If your endpoint creates a row, charges a card, or sends an email on every call, the second request does not "fix" the first one. It does the work again.
 
-Key points:
+Before you add `retry: 3` anywhere, pin down one thing:
 
-- Linear algebra describes how models store and transform information
-- Calculus explains how models learn by following gradients
-- Probability helps you reason about uncertainty and predictions
-- Optimization is the process of reducing error step by step
-- Weak math makes AI feel like magic. Strong basics make it engineering
+What makes two requests the same request?
 
-Takeaway:
-In AI Engineering, math is not decoration. It is the language that turns demos into systems you can control.
+Useful patterns:
 
-Next: Mathematics for AI — Vectors, the simplest building block.
+- Client sends an Idempotency-Key; server stores the first result and returns it on repeats
+- Upsert by a natural key instead of blind insert
+- Outbox / job id so a worker can skip work it already finished
+- Prefer PUT/PATCH semantics when the outcome should converge, not accumulate
 
-#AIEngineering #MathematicsForAI #MachineLearning #ContinuousLearning #CareerGrowth
+Retries are a reliability tool only when the operation can safely run twice.
+
+Otherwise you did not make the system stronger. You made duplicate bugs more likely under load.
+
+#SoftwareEngineering #BackendDevelopment #APIDesign #FullStackDevelopment #PracticalEngineering

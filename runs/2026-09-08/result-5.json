@@ -1,0 +1,11 @@
+{
+  "local_date": "2026-09-08",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "content_path": "runs/2026-09-08/post-5.md",
+  "topic": "DSA / programming",
+  "note": "Same format as post-3.md; based on dsa-mastery problem-solving framework (Clarify → Brute → Optimize → Code → Test). Publishing intentionally skipped (not PUBLISH MODE)."
+}
