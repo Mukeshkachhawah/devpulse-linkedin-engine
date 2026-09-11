@@ -1,0 +1,11 @@
+{
+  "local_date": "2026-09-10",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "content_path": "runs/2026-09-10/post-3.md",
+  "topic": "AI engineering / using GPT-6 Astra for structured software work",
+  "note": "User-provided revision saved; publishing intentionally skipped (not PUBLISH MODE)."
+}

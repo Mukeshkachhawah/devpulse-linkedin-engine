@@ -2,8 +2,8 @@
  * Software Engineering Learning Sheet — Professional
  * Paste into Apps Script → Save → Run: setup
  *
- * Tabs: Revision Q&A | Glossary
- * Content: MODULE 01 + MODULE 02 (add next when you ask)
+ * Tabs: Revision Q&A | Glossary | Scenario Q&A
+ * Content: MODULE 01 + MODULE 02 + MODULE 03 + Scenario Phase 1 (Basics + Frontend)
  *
  * Language: English UI labels + simple Hinglish teaching answers
  */
@@ -40,14 +40,16 @@ function setup() {
 
   createRevisionQA_(ss);
   createGlossary_(ss);
+  createScenarioQA_(ss);
   removeUnusedSheets_(ss);
 
   ss.setActiveSheet(ss.getSheetByName('Revision Q&A'));
   SpreadsheetApp.flush();
   SpreadsheetApp.getUi().alert(
     'Ready!\n\n' +
-    'Tabs: Revision Q&A + Glossary\n' +
-    'Loaded: Module 01 + Module 02\n' +
+    'Tabs: Revision Q&A + Glossary + Scenario Q&A\n' +
+    'Loaded: Module 01 + Module 02 + Module 03\n' +
+    'Scenario tab: Basics + Frontend (1–5 YOE)\n' +
     'Collapse: checkbox “Padh liya?” / left ▶/▼ / menu SE Learning\n\n' +
     'Reload sheet once if menu SE Learning nahi dikhe.'
   );
@@ -62,6 +64,9 @@ function onOpen() {
     .addSeparator()
     .addItem('Collapse Module 02', 'collapseModule02')
     .addItem('Expand Module 02', 'expandModule02')
+    .addSeparator()
+    .addItem('Collapse Module 03', 'collapseModule03')
+    .addItem('Expand Module 03', 'expandModule03')
     .addToUi();
 }
 
@@ -75,7 +80,7 @@ function getOrRecreateSheet_(ss, name, index) {
 }
 
 function removeUnusedSheets_(ss) {
-  var keep = { 'Revision Q&A': true, 'Glossary': true };
+  var keep = { 'Revision Q&A': true, 'Glossary': true, 'Scenario Q&A': true };
   var toDelete = ss.getSheets().filter(function (s) {
     return !keep[s.getName()];
   });
@@ -111,7 +116,7 @@ function createRevisionQA_(ss) {
 
   sheet.getRange('A1:E1').merge();
   sheet.getRange('A1')
-    .setValue('Software Engineering — Revision Q&A  |  Modules 01–02')
+    .setValue('Software Engineering — Revision Q&A  |  Modules 01–03')
     .setFontFamily('Arial').setFontSize(16).setFontWeight('bold')
     .setFontColor(THEME.headerFg).setBackground(THEME.navy)
     .setVerticalAlignment('middle');
@@ -309,6 +314,16 @@ function expandModule02() {
   syncCheckbox_('02', false);
 }
 
+function collapseModule03() {
+  collapseModuleById_('03');
+  syncCheckbox_('03', true);
+}
+
+function expandModule03() {
+  expandModuleById_('03');
+  syncCheckbox_('03', false);
+}
+
 function collapseModuleById_(moduleId) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Revision Q&A');
   var meta = getModuleMeta_();
@@ -364,7 +379,7 @@ function createGlossary_(ss) {
 
   sheet.getRange('A1:D1').merge();
   sheet.getRange('A1')
-    .setValue('Glossary — Modules 01–02 terms (hard words explained)')
+    .setValue('Glossary — Modules 01–03 terms (hard words explained)')
     .setFontFamily('Arial').setFontSize(16).setFontWeight('bold')
     .setFontColor(THEME.headerFg).setBackground(THEME.navy)
     .setVerticalAlignment('middle');
@@ -414,8 +429,135 @@ function createGlossary_(ss) {
     .setBorder(true, true, true, true, true, true, THEME.border, SpreadsheetApp.BorderStyle.SOLID);
 }
 
+// ================================================================
+// SCENARIO Q&A — Basics + Frontend (1–5 YOE)
+// ================================================================
+function createScenarioQA_(ss) {
+  var sheet = getOrRecreateSheet_(ss, 'Scenario Q&A', 2);
+  sheet.setTabColor('#B45309');
+
+  sheet.setColumnWidth(1, 92);
+  sheet.setColumnWidth(2, 720);
+  sheet.setColumnWidth(3, 200);
+  sheet.setColumnWidth(4, 140);
+
+  sheet.getRange('A1:D1').merge();
+  sheet.getRange('A1')
+    .setValue('Scenario Q&A  |  Basics/day-to-day + Frontend  |  Level: 1–5 YOE interview scenarios')
+    .setFontFamily('Arial').setFontSize(16).setFontWeight('bold')
+    .setFontColor(THEME.headerFg).setBackground(THEME.navy)
+    .setVerticalAlignment('middle');
+  sheet.setRowHeight(1, 42);
+
+  sheet.getRange('A2:D2').merge();
+  sheet.getRange('A2')
+    .setValue('Format: Intuition → Engineering → Must remember.  |  Topic 1–2 = Basics + Frontend (1–5 YOE)  |  Backend/DevOps/System Design baad mein')
+    .setFontFamily('Arial').setFontSize(10).setFontColor('#334155')
+    .setBackground(THEME.accentSoft).setVerticalAlignment('middle');
+  sheet.setRowHeight(2, 28);
+
+  sheet.getRange(3, 1, 1, 4)
+    .setValues([['Type', 'Content', 'Key Terms', 'Area']])
+    .setFontFamily('Arial').setFontSize(11).setFontWeight('bold')
+    .setFontColor(THEME.headerFg).setBackground(THEME.slate)
+    .setHorizontalAlignment('center').setVerticalAlignment('middle');
+  sheet.setRowHeight(3, 28);
+  sheet.setFrozenRows(3);
+
+  var topics = getScenarioData_();
+  var row = 4;
+  var qCounter = 0;
+
+  topics.forEach(function (topic, topicIndex) {
+    sheet.getRange(row, 1, 1, 4).merge();
+    sheet.getRange(row, 1)
+      .setValue(topic.title)
+      .setFontFamily('Arial').setFontSize(12).setFontWeight('bold')
+      .setFontColor('#FFFFFF')
+      .setBackground(THEME.moduleColors[topicIndex % THEME.moduleColors.length])
+      .setVerticalAlignment('middle');
+    sheet.setRowHeight(row, 36);
+    row++;
+
+    if (topic.subtitle) {
+      sheet.getRange(row, 1, 1, 4).merge();
+      sheet.getRange(row, 1)
+        .setValue(topic.subtitle)
+        .setFontFamily('Arial').setFontSize(10).setFontStyle('italic')
+        .setFontColor('#0F172A').setBackground('#E0F2FE')
+        .setVerticalAlignment('middle');
+      sheet.setRowHeight(row, 24);
+      row++;
+    }
+
+    topic.qa.forEach(function (item) {
+      qCounter++;
+      var tag = item.mustKnow ? 'Must Know' : ('Q' + qCounter);
+
+      sheet.getRange(row, 1)
+        .setValue(tag)
+        .setFontFamily('Arial').setFontSize(10).setFontWeight('bold')
+        .setFontColor('#FFFFFF')
+        .setBackground(item.mustKnow ? THEME.mustKnow : THEME.interview)
+        .setHorizontalAlignment('center').setVerticalAlignment('middle');
+
+      sheet.getRange(row, 2)
+        .setValue(item.q)
+        .setFontFamily('Arial').setFontSize(11).setFontWeight('bold')
+        .setFontColor(THEME.qFg).setBackground(THEME.qBg)
+        .setWrap(true).setVerticalAlignment('middle');
+
+      sheet.getRange(row, 3)
+        .setValue(item.terms || '')
+        .setFontFamily('Arial').setFontSize(9).setFontColor('#854D0E')
+        .setBackground(THEME.qBg).setWrap(true).setVerticalAlignment('middle');
+
+      sheet.getRange(row, 4)
+        .setValue(item.area || topic.area || '')
+        .setFontFamily('Arial').setFontSize(9).setFontColor('#334155')
+        .setBackground(THEME.qBg).setWrap(true).setVerticalAlignment('middle');
+
+      sheet.setRowHeight(row, 44);
+      row++;
+
+      sheet.getRange(row, 1)
+        .setValue('Answer')
+        .setFontFamily('Arial').setFontSize(10).setFontWeight('bold')
+        .setFontColor(THEME.aTagFg).setBackground(THEME.aTagBg)
+        .setHorizontalAlignment('center').setVerticalAlignment('top');
+
+      sheet.getRange(row, 2, 1, 3).merge();
+      sheet.getRange(row, 2)
+        .setValue(item.a)
+        .setFontFamily('Arial').setFontSize(10).setFontColor('#0F172A')
+        .setBackground(THEME.aBg).setWrap(true).setVerticalAlignment('top');
+
+      var lines = Math.max(10, Math.ceil(String(item.a).length / 85));
+      sheet.setRowHeight(row, Math.min(48 + lines * 14, 409));
+      row++;
+
+      sheet.getRange(row, 1, 1, 4).setBackground('#FFFFFF');
+      sheet.setRowHeight(row, 8);
+      row++;
+    });
+  });
+
+  sheet.getRange(row, 1, 1, 4).merge();
+  sheet.getRange(row, 1)
+    .setValue('Legend: Orange = Interview scenario  |  Teal = Must Know  |  Total scenarios: ' + qCounter + '  |  Phase 1 = Basics + Frontend')
+    .setFontFamily('Arial').setFontSize(9).setFontColor(THEME.muted)
+    .setBackground(THEME.rowOdd).setVerticalAlignment('middle');
+
+  sheet.getRange(3, 1, Math.max(1, row - 3), 4)
+    .setBorder(true, true, true, true, true, true, THEME.border, SpreadsheetApp.BorderStyle.SOLID);
+}
+
+function getScenarioData_() {
+  return getScenarioBasics_().concat(getScenarioFrontend_());
+}
+
 function getRevisionData_() {
-  return getM01_().concat(getM02_());
+  return getM01_().concat(getM02_()).concat(getM03_());
 }
 
 // ================================================================
@@ -725,7 +867,7 @@ function getM02_() {
         a: answerBlock_(
           'Viva script: fundamentals ko engineering vocabulary ke saath bolo, hard words define karke.',
           'Practice aloud:\n“Programming = precise instructions. Variables named storage; declaration/init/assignment alag. Types constrain operations; watch coercion. Operators + precedence; short-circuit. Control flow via if/else and loops; avoid off-by-one. Functions abstract behavior; know params vs args, side effects vs pure. Scope limits visibility. Arrays ordered indexed data; objects labeled fields. Errors: syntax/runtime/logic; read stack traces. Algorithms first in pseudocode; validate I/O; write readable DRY/KISS code.”',
-          'Checklist:\n1) Statement vs expression\n2) Variable lifecycle + naming\n3) Types + static/dynamic + coercion\n4) Operators + precedence + short-circuit\n5) Branching + guard clauses\n6) Loops + infinite + OBOE\n7) Functions + pure/side effects + call stack idea\n8) Scope + shadowing + globals risk\n9) Arrays/indexing/bounds\n10) Objects/null safety lite\n11) Error classes + exceptions\n12) Algorithm/pseudocode/edge cases\n13) I/O validation\n14) DRY/KISS/comments/refactor\n15) Boolean condition design\n\nNext module usually: Git & engineering habits (03) — jab bolo.'
+          'Checklist:\n1) Statement vs expression\n2) Variable lifecycle + naming\n3) Types + static/dynamic + coercion\n4) Operators + precedence + short-circuit\n5) Branching + guard clauses\n6) Loops + infinite + OBOE\n7) Functions + pure/side effects + call stack idea\n8) Scope + shadowing + globals risk\n9) Arrays/indexing/bounds\n10) Objects/null safety lite\n11) Error classes + exceptions\n12) Algorithm/pseudocode/edge cases\n13) I/O validation\n14) DRY/KISS/comments/refactor\n15) Boolean condition design\n\nNext: Module 03 — Git & engineering habits.'
         )
       }
     ]
@@ -733,10 +875,158 @@ function getM02_() {
 }
 
 // ================================================================
-// GLOSSARY DATA — Modules 01–02
+// MODULE 03 — Git & Engineering Habits (COMPLETE + IN-DEPTH)
+// ================================================================
+function getM03_() {
+  return [{
+    moduleId: '03',
+    title: 'MODULE 03 — Git & Engineering Habits',
+    subtitle: 'Code ki history + safe team workflow. Format: Intuition → Engineering (hard words explained) → Must remember. Deep conflict/rebase interviews → Scenario tab.',
+    qa: [
+      {
+        mustKnow: true, module: '03', terms: 'Version control, History, Collaboration, Backup',
+        q: 'Version control kya hai? Bina Git ke professional team mein kya toot’ta hai?',
+        a: answerBlock_(
+          'Version control = time machine + shared notebook for code. Har important change ka checkpoint + kaunne kiya + kyun — sab track.',
+          'Bina iske: “final_final_v3.zip”, overwrite, lost work, “mere laptop pe chal raha tha,” kaun kis line pe guilty — chaos.\n\nGit = sabse common version control tool (distributed): har clone ke paas mostly full history hoti hai.\n\nBenefits engineers care about:\n1) History — kab / kya / kyun change hua\n2) Parallel work — branches pe alag features\n3) Collaboration — review before merge\n4) Recovery — galt commit se peeche / bisect bugs\n5) Audit — release pe kya gaya\n\nInterview angle: version control process discipline hai, sirf “backup folder” nahi.',
+          '• VCS = Version Control System\n• Checkpoint = commit (idea)\n• Why: history, branches, review, recovery, audit\n• Without it: zip hell + blame fog\n• Git dominant in industry; concepts transfer to other VCS\n• Follow-up: “Centralized vs distributed?” → Git = distributed (local full-ish history)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Git, GitHub, GitLab, Bitbucket, Remote hosting',
+        q: 'Git aur GitHub mein farq? Ek tool, ek service — clear examples.',
+        a: answerBlock_(
+          'Git = kitchen knife (tool, local). GitHub = restaurant + storage locker on internet (hosting + collaboration UI).',
+          'Git chalta hai tumhare machine pe (CLI / VS Code). Commands: commit, branch, status…\n\nGitHub / GitLab / Bitbucket = remote hosting services:\n• Repo cloud pe rakhna\n• Push/pull\n• Pull Requests / Merge Requests\n• Issues, CI hooks, access control, code review UI\n\nTum Git bina GitHub ke use kar sakte ho (sirf local). GitHub bina Git concepts ke sense nahi banata — UI Git objects pe built hai.\n\nCommon myth: “Maine GitHub pe save kiya = Git seekh liya.” UI click ≠ mental model of commit/branch/remote.',
+          '• Git = tool/protocol of history\n• GitHub = popular host + social/review layer\n• Alternatives: GitLab, Bitbucket, self-hosted\n• Local repo can exist with zero remotes\n• Interview: explain both in one breath\n• Follow-up: “What is a remote?” → named URL pointer (often origin)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Repository, Working tree, Staging area, Commit, SHA',
+        q: 'Repo, working tree, staging, commit — teen zones ka simple model?',
+        a: answerBlock_(
+          'Restaurant: kitchen counter (working files) → tray “ready to serve” (staging) → photo in album (commit = saved snapshot).',
+          'Repository (repo) = project folder + `.git` history database.\n\nWorking tree = abhi disk pe jo files tum edit kar rahe ho.\n\nStaging area (index) = next commit mein kya jayega — intentionally choose files/hunks.\n\nCommit = immutable snapshot + metadata (author, message, parent). Identified by SHA (long hex id); short SHA daily talk mein.\n\nFlow: edit → git add (stage) → git commit.\nSkip mental model = “add kyun?” confusion. Stage = control + clean commits.\n\nUntracked = Git abhi track nahi kar raha. Modified = tracked but changed. Staged = commit ke liye selected.',
+          '• Three areas: working → staging → commit history\n• Commit = snapshot + message + parent link(s)\n• SHA uniquely IDs commit\n• .git folder = local database — delete carefully\n• Small focused commits > giant mystery blobs\n• Follow-up: “What does HEAD mean?” → pointer to current commit/branch tip'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'git status, git diff, git log, Mental model',
+        q: 'Roz ka pehla habit: status, diff, log — har command kya dikhata hai?',
+        a: answerBlock_(
+          'Dashboard pehle, drive baad mein. status = kahan khade ho; diff = kya badla; log = history story.',
+          'git status: branch kaunsi, clean/dirty, untracked/modified/staged — orientation.\n\ngit diff: working vs staging (unstaged changes). git diff --staged: staging vs last commit.\n\ngit log / git log --oneline: commit history skim. Good before push/PR.\n\nHabit loop before commit:\n1) status\n2) diff (review own change — typos/secrets)\n3) add intentionally\n4) commit with clear message\n5) status again (should be clean or expected leftovers)\n\nEngineers jo yeh skip karte hain aksar galat files / secrets / debug junk commit kar dete hain.',
+          '• status = map\n• diff = content delta\n• log = timeline\n• Review staged diff before commit\n• --oneline for quick scan\n• Follow-up: git show <sha> = ek commit ka detail'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Branch, main/master, Feature branch, HEAD, Switch',
+        q: 'Branch kya hai? main pe seedha kaam kyun risky hai?',
+        a: answerBlock_(
+          'Branch = parallel timeline / notebook page. main = team ki shared “official” line. Feature branch = tumhara experiment page.',
+          'Git mein branch mostly ek movable pointer to a commit. Creating branch sasta hai.\n\nDefault branch often `main` (purana `master`). Protected on remotes — force-push blocked ideally.\n\nWhy not commit straight to main:\n• Break shared baseline\n• Hard review\n• Half-done work public\n• Hotfix / release confusion\n\nHappy path: main se naya feature branch → commits → PR → merge back.\n\nHEAD = “tum abhi kis commit/branch pe ho.” switch/checkout branch = HEAD move + working tree update (with care if dirty).',
+          '• Branch = pointer to commit (lightweight)\n• One concern per feature branch when possible\n• Protect main\n• Name branches clearly: feature/login, fix/navbar\n• Don’t leave long-lived zombie branches without reason\n• Follow-up: “What is detached HEAD?” → HEAD points to commit not branch name (advanced)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Remote, origin, clone, push, pull, fetch',
+        q: 'Remote, clone, push, pull, fetch — collaboration ka skeleton?',
+        a: answerBlock_(
+          'Local diary vs cloud photocopy. clone = pehli copy lao; push = apni commits cloud pe bhejo; fetch = cloud news padho; pull = news lao + apni branch update (usually fetch+merge/rebase).',
+          'Remote = named URL (aksar `origin`) jahan shared repo rehti hai.\n\nclone: empty machine pe pehli baar poora repo lao.\n\npush: local commits remote branch pe publish (permissions + protection rules).\n\npull: remote changes apni current branch mein lao (team sync). Exact strategy (merge vs rebase) team policy.\n\nfetch: remote refs update karo but working branch auto-merge mat karo — “dekh lo pehle.”\n\nMental model: local aur remote alag histories sync karti hain; push/pull bridges.\n\nAuth: HTTPS token / SSH keys — passwords era gone.',
+          '• origin = default remote name convention\n• push publishes; pull syncs down\n• fetch = update knowledge without merging\n• Always pull/sync before big push on shared branches\n• Never force-push protected main\n• Follow-up: upstream tracking branch (branch.<name>.merge)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: '.gitignore, Secrets, node_modules, Env files',
+        q: '.gitignore kya karta hai? Secrets commit hone se kaise bachte ho?',
+        a: answerBlock_(
+          'Ignore list = “yeh files history mein mat ginti.” Build junk, dependencies dump, secrets — bahar rakho.',
+          '`.gitignore` patterns batata hai untracked files ko ignore karo. Already tracked file ignore se magic-hide nahi hoti — pehle untrack intentionally.\n\nTypical ignores: `node_modules/`, `dist/`, `.env`, IDE junk, OS junk (`.DS_Store`), logs, coverage.\n\nSecrets (API keys, passwords, private certs):\n• Kabhi commit mat karo\n• `.env` + secrets manager / CI secrets\n• Agar leak ho gaya: rotate keys immediately (assume compromised) — history rewrite alone enough nahi\n\nHabit: commit se pehle `git status` + staged diff scan for tokens.',
+          '• Ignore early in project\n• Secrets = rotate if leaked\n• Don’t commit dependency folders\n• Templates: `.env.example` without real values\n• Pre-commit hooks / secret scanners help\n• Follow-up: git rm --cached to stop tracking without deleting file'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Commit message, Atomic commit, Why not what',
+        q: 'Achhi commit message kaise likhte ho? “update” kyun weak hai?',
+        a: answerBlock_(
+          'Commit message = future tum + reviewer ke liye subject line. “update” = empty calorie.',
+          'Good shape (common convention):\n• Short subject (~50 chars): imperative mood — “Add login validation” not “Added…”\n• Optional body: why, tradeoffs, links to issue\n\nAtomic-ish commits: ek logical change per commit jab practical ho — revert/review easy.\n\nWeak: “fix”, “wip”, “asdf”, “final”.\nStrong: “Fix off-by-one in pagination when pageSize=1”.\n\nTeam styles vary (Conventional Commits: feat/fix/chore) — consistency > perfection.\n\nRemember: message history documentation hai jo code comments replace nahi karti, lekin “kyun” capture karti hai.',
+          '• Subject = what/why in one line\n• Imperative mood common\n• Avoid junk messages\n• Prefer coherent commits over 40 noise commits OR one mega-blob\n• Amend only unpushed / agreed rewrites\n• Follow-up: squash on merge policies'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Merge, Fast-forward, Merge commit, Conflict (idea)',
+        q: 'Merge kya hota hai? Conflict ka matlab (idea level) — panic mat.',
+        a: answerBlock_(
+          'Merge = do histories ko ek line pe milana. Conflict = Git same jagah do alag edits dekh ke poochta hai “kaunsa rakhun?”',
+          'Jab feature branch main mein milti hai, Git commits combine karta hai.\n\nFast-forward: main seedha aage badh sakti thi (no divergent commits) — pointer slide.\n\nMerge commit: divergent histories → explicit merge node.\n\nConflict: overlapping changes. Yeh failure nahi — decision checkpoint. Open file, markers resolve, test, continue.\n\nModule 03 level: samjho conflict normal hai; deep resolve / rebase wars → Scenario Q&A tab.\n\nHabit: chhote PRs → kam conflicts.',
+          '• Merge integrates branches\n• Conflict = human choose correct code\n• Test after resolve\n• Abort exists if panic\n• Smaller branches = easier merges\n• Follow-up: merge vs rebase tradeoff (Scenario depth)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Pull Request, Code review, Draft PR, Checks',
+        q: 'Pull Request (PR) kya hai? Review habit kyun non-negotiable hai?',
+        a: answerBlock_(
+          'PR = “yeh changes main mein dalne se pehle dekho” ka formal request + discussion thread.',
+          'GitHub pe PR = compare branch → base (usually main). Shows diff, commits, checks (CI), reviewers.\n\nWhy:\n• Catch bugs/secrets early\n• Share knowledge\n• Keep main healthy\n• Document decisions in comments\n\nGood PR: small, clear description (what/why/how test), screenshots if UI, link issues.\nDraft PR = early feedback before “ready”.\n\nReviewer etiquette: kind + specific. Author: respond, don’t take style notes personally.\n\nCI red = mat merge casually — build/test pehle green.',
+          '• PR = review gate before merge\n• Description > empty title only\n• Prefer small PRs\n• Draft for early eyes\n• Respect branch protection + required reviews\n• Follow-up: CODEOWNERS / required checks'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Daily workflow, Feature branch, Sync, PR',
+        q: 'Safe daily Git workflow kya hai (junior-friendly happy path)?',
+        a: answerBlock_(
+          'Recipe: sync → branch → edit/test → commit → push → PR → address review → merge → delete branch.',
+          'Typical loop:\n1) checkout main; pull latest\n2) create feature branch\n3) code + run tests locally\n4) status/diff → stage → commit (clear message)\n5) push branch to origin\n6) open PR; wait CI + review\n7) fix review commits; push again\n8) merge via platform; pull main locally; delete old branch\n\nAvoid: huge uncommitted piles; committing to main; force-push shared history; secrets in commits.\n\nIf stuck: status pehle, phir poocho — Git messages aksar next step hint karti hain.',
+          '• Always know current branch (status)\n• Pull before branching off stale main\n• Commit often enough to not fear loss\n• PR early if design risk\n• Keep main shippable\n• Follow-up: stash for quick context switch (Scenario also covers)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'git init, git clone, First-time setup',
+        q: 'Naya project: git init vs existing remote se clone — kab kaunsa?',
+        a: answerBlock_(
+          'clone = kisi existing remote ki copy. init = is folder ko naya repo banao (phir remote add optional).',
+          'Starting from GitHub “new repo” empty → often clone then add files, OR init local → add remote → push.\n\nFirst-time machine setup (once):\n• git config user.name / user.email (commits pe dikhe)\n• auth (SSH or credential manager)\n\nVerify: git status inside project; .git exists.\n\nDon’t init inside another git repo accidentally (nested repos pain).\nDon’t commit node_modules on first push.',
+          '• clone for existing remotes\n• init for brand-new local history\n• Set identity config early\n• One repo root per project\n• First commit often README + .gitignore\n• Follow-up: bare repos / monorepos (later)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Undo lite, restore, unstage, Safe habits',
+        q: 'Common “oh no” fixes (safe level): unstage, discard untracked carefully — kya yaad rakho?',
+        a: answerBlock_(
+          'Git powerful undo tools deta hai — lekin kuch commands data uda sakti hain. Pehle status, phir soft recovery prefer karo.',
+          'Safe-ish beginner moves:\n• Unstage: git restore --staged <file> (older: reset HEAD <file>)\n• Discard unstaged working changes to last commit: git restore <file> — DESTRUCTIVE to uncommitted edits\n• Never “clean -fd” casually — deletes untracked\n\nUnpushed commit message fix: amend only if alone on branch & not shared.\nPushed main mistakes: prefer revert (new undo commit) over history rewrite.\n\nRule: shared history rewrite = team communication + lease force only when needed (Scenario depth).',
+          '• status before any undo\n• Uncommitted discard = permanent for those edits\n• Prefer revert on shared main\n• Amend/rebase shared branches carefully\n• Practice on a toy repo\n• Follow-up: reflog as seatbelt (advanced but know name)'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Engineering habits, README, Small PRs, Ask early',
+        q: 'Git ke saath kaunsi engineering habits juniors ko roz use karni chahiye?',
+        a: answerBlock_(
+          'Tool secondary; habits primary: clarity, small steps, communicate, don’t hide risk.',
+          'High-leverage habits:\n1) Clear branch + commit + PR descriptions\n2) Small PRs / vertical slices\n3) README / how to run locally updated\n4) Don’t commit secrets / junk\n5) Test before “ready for review”\n6) Ask early on design — Draft PR / spike\n7) Leave code better than found (light)\n8) Respect reviewers’ time — self-review diff pehle\n\nGit enables these habits; replaces soft skills nahi.',
+          '• Self-review your PR diff\n• Keep main green mindset\n• Document non-obvious why\n• Communicate rewrites\n• Consistency with team conventions\n• Follow-up: Definition of Done includes tests + notes'
+        )
+      },
+      {
+        mustKnow: true, module: '03', terms: 'Revision checklist Module 03',
+        q: 'Module 03 clear hai — bina paper ke kya-kya explain karoge?',
+        a: answerBlock_(
+          'Viva: Git ko tool+habits dono bolo; GitHub alag service; daily happy path crystal clear.',
+          'Practice aloud:\n“Version control history + collaboration deta hai. Git local tool; GitHub hosting/review. Repo has working tree, staging, commits (SHA). status/diff/log orientation. Branches isolate work; protect main. Remotes sync via clone/push/pull/fetch. .gitignore + never commit secrets. Clear commit messages. Merge combines history; conflicts are decisions. PRs gate review. Daily: sync main → feature branch → commit → push → PR. Undo carefully; shared history respect.”',
+          'Checklist:\n1) Why VCS\n2) Git vs GitHub\n3) Working / staging / commit\n4) status, diff, log\n5) Branches + protect main\n6) Remote/clone/push/pull/fetch\n7) .gitignore + secrets\n8) Commit message quality\n9) Merge + conflict idea\n10) PR + review habit\n11) Daily happy-path workflow\n12) init vs clone\n13) Safe undo lite\n14) Engineering habits around Git\n\nDeep conflict/rebase/force-push interviews → Scenario Q&A tab.'
+        )
+      }
+    ]
+  }];
+}
+
+// ================================================================
+// GLOSSARY DATA — Modules 01–03
 // ================================================================
 function getGlossaryData_() {
-  return getGlossaryM01_().concat(getGlossaryM02_());
+  return getGlossaryM01_().concat(getGlossaryM02_()).concat(getGlossaryM03_());
 }
 
 function getGlossaryM01_() {
@@ -837,3 +1127,71 @@ function getGlossaryM02_() {
     { term: 'De Morgan (lite)', meaning: '!(A&&B)=!A||!B; !(A||B)=!A&&!B — negation rewrite.', topic: '02 Programming' }
   ];
 }
+
+function getGlossaryM03_() {
+  return [
+    { term: 'Version control (VCS)', meaning: 'Code ki history + collaboration system — checkpoints, branches, recovery, audit.', topic: '03 Git' },
+    { term: 'Git', meaning: 'Distributed version control tool jo local machine pe history manage karta hai.', topic: '03 Git' },
+    { term: 'GitHub / GitLab / Bitbucket', meaning: 'Git repos host + PR/review/CI UI wali remote services. Git tool hai; yeh hosting layers.', topic: '03 Git' },
+    { term: 'Repository (repo)', meaning: 'Project files + `.git` history database. Local ya remote ho sakti hai.', topic: '03 Git' },
+    { term: 'Working tree', meaning: 'Disk pe abhi jo files tum edit kar rahe ho — commit se pehle wala live workspace.', topic: '03 Git' },
+    { term: 'Staging area (index)', meaning: 'Next commit ke liye selected changes. `git add` yahan lata hai.', topic: '03 Git' },
+    { term: 'Commit', meaning: 'Immutable snapshot + message + parent link(s). History ka unit.', topic: '03 Git' },
+    { term: 'SHA', meaning: 'Commit ka unique hex id. Short SHA daily baat mein use.', topic: '03 Git' },
+    { term: 'HEAD', meaning: 'Pointer — tum abhi kis commit/branch tip pe khade ho.', topic: '03 Git' },
+    { term: 'Branch', meaning: 'Movable pointer to a commit — parallel timeline for features/fixes.', topic: '03 Git' },
+    { term: 'main / master', meaning: 'Default shared branch (aaj aksar main). Protect + review se pehle merge.', topic: '03 Git' },
+    { term: 'Feature branch', meaning: 'Temporary branch for one change stream — PR ke baad merge/delete.', topic: '03 Git' },
+    { term: 'Remote', meaning: 'Named URL/location of shared repo (often `origin`).', topic: '03 Git' },
+    { term: 'origin', meaning: 'Default remote name convention jab tum clone/push karte ho.', topic: '03 Git' },
+    { term: 'clone', meaning: 'Remote repo ki pehli local copy banana (history + files).', topic: '03 Git' },
+    { term: 'push', meaning: 'Local commits ko remote branch pe publish karna.', topic: '03 Git' },
+    { term: 'fetch', meaning: 'Remote refs update — knowledge lao, auto-merge mat karo.', topic: '03 Git' },
+    { term: 'pull', meaning: 'Remote changes apni branch mein lao (typically fetch + merge/rebase).', topic: '03 Git' },
+    { term: 'git status', meaning: 'Orientation dashboard — branch, dirty/clean, staged/untracked.', topic: '03 Git' },
+    { term: 'git diff', meaning: 'Content delta dikhata hai (working vs staged vs commit).', topic: '03 Git' },
+    { term: 'git log', meaning: 'Commit history timeline. `--oneline` quick skim.', topic: '03 Git' },
+    { term: '.gitignore', meaning: 'Patterns of files Git untracked ignore kare — deps, build, secrets templates.', topic: '03 Git' },
+    { term: 'Untracked / Modified / Staged', meaning: 'File states: Git nahi track / badli hui / commit ke liye selected.', topic: '03 Git' },
+    { term: 'Merge', meaning: 'Do branch histories ko integrate karna (fast-forward ya merge commit).', topic: '03 Git' },
+    { term: 'Merge conflict (idea)', meaning: 'Same lines pe competing edits — human decide karta hai sahi code.', topic: '03 Git' },
+    { term: 'Fast-forward', meaning: 'Merge jahan base seedha aage badh sake — extra merge commit ki zarurat nahi.', topic: '03 Git' },
+    { term: 'Pull Request (PR)', meaning: 'Branch ko base mein merge se pehle review/discussion/CI gate (GitHub term).', topic: '03 Git' },
+    { term: 'Code review', meaning: 'Dusre engineer diff padhke bugs/design/clarity check — team quality habit.', topic: '03 Git' },
+    { term: 'Draft PR', meaning: 'Early feedback ke liye “not ready to merge” PR.', topic: '03 Git' },
+    { term: 'Commit message', meaning: 'Commit ka subject/body — future readers ke liye what/why; “update” weak.', topic: '03 Git' },
+    { term: 'Atomic commit', meaning: 'Ek logical change per commit (practical limit mein) — review/revert easy.', topic: '03 Git' },
+    { term: 'git init', meaning: 'Current folder ko naya Git repo banana (`.git` create).', topic: '03 Git' },
+    { term: 'Restore / unstage (lite)', meaning: 'Staging hatao ya working changes discard — discard destructive ho sakta.', topic: '03 Git' },
+    { term: 'Revert (idea)', meaning: 'Naya commit jo purane change ko undo kare — shared main pe safer undo style.', topic: '03 Git' },
+    { term: 'Protected branch', meaning: 'Remote rules: force-push/direct commit block; reviews/checks required.', topic: '03 Git' },
+    { term: 'Secret leak habit', meaning: 'Keys commit mat karo; leak = rotate immediately, assume compromised.', topic: '03 Git' }
+  ];
+}
+
+// ================================================================
+// SCENARIO DATA — Phase 1 (Basics + Frontend)
+// ================================================================
+
+// ================================================================
+// SCENARIO DATA — Basics + Frontend (detailed simple Hinglish)
+// ================================================================
+function getScenarioBasics_() {
+  return [{
+    title: 'TOPIC 1 — Basic / Day-to-day Engineering (1–5 YOE)',
+    subtitle: 'Git, code review, debugging, ownership, quality, teamwork, environments. Har answer detail mein — pehle kahani/example, phir step-by-step tarika, phir yaad rakhne wali baatein.',
+    area: 'Basics',
+    qa: [].concat(sbGit_(), sbReview_(), sbDebug_(), sbOwn_(), sbQuality_(), sbTeam_())
+  }];
+}
+
+function getScenarioFrontend_() {
+  return [{
+    title: 'TOPIC 2 — Frontend Scenarios (1–5 YOE)',
+    subtitle: 'React/JS, browser, forms, performance, auth, data/async, accessibility, build. Har answer detail mein — pehle asaan example, phir asli engineering tarika, phir yaad rakhne wali baatein.',
+    area: 'Frontend',
+    qa: [].concat(feReact_(), feBrowser_(), feForms_(), fePerf_(), feAuth_(), feData_(), feA11y_(), feBuild_())
+  }];
+}
+
+// SCENARIO_BATCHES
