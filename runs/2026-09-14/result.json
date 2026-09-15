@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-14",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "verified_account": null,
+  "post_url": null,
+  "topic": "AI speed vs ownership — use AI for first draft, earn the second yourself",
+  "files": {
+    "post": "runs/2026-09-14/post.md",
+    "result": "runs/2026-09-14/result.json"
+  }
+}

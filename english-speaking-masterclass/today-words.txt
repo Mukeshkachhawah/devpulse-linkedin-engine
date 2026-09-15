@@ -1,0 +1,11 @@
+# Today Words Inbox
+# -----------------
+# Jab koi naya word dikhe, yahan seedha add karo (ek line = ek word).
+# Format (teen options):
+#   word
+#   word | meaning
+#   word | meaning | example
+#
+nuance | bariq fark / subtle difference | There is a nuance between latency and lag.
+caveat | shart / warning note | One caveat: this only works with Redis.
+
