@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-15",
+  "mode": "dry_run",
+  "reviewed": true,
+  "published": false,
+  "status": "generated",
+  "expected_account": "Mukesh Kachhawah",
+  "verified_account": null,
+  "post_url": null,
+  "source": "AI_Engineering_Masterclass/01_History_of_AI/Create_AI_History_Revision_Sheet.gs",
+  "angle": "AI timeline misconception — ChatGPT/deep learning are chapters, not year zero; Transformer and chatbot credit myths"
+}

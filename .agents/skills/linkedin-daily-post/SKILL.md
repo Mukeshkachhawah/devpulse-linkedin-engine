@@ -39,11 +39,22 @@ date untouched.
 
 Choose one focused idea from software development, full-stack development, AI,
 programming, developer productivity, lessons learned, tools, or practical
-engineering. Rotate topics and angles by checking previous files under `runs/`.
+engineering.
+
+### Mandatory uniqueness gate (before drafting)
+
+Search all existing `runs/**/post*.md` for the intended hook, core claim, and
+key terms. Reject the idea if any prior draft already covers the same theme,
+takeaway, hook idea, or series angle — even with different wording. A
+compressed remake of an earlier History-of-AI (or other) series episode is not
+allowed. If blocked, pick a genuinely unused angle; do not paraphrase.
+
+Rotate topics and angles by checking previous files under `runs/`.
 
 The post must:
 
-- Be original; never copy, closely paraphrase, or imitate another person's post.
+- Be original; never copy, closely paraphrase, or imitate another person's post
+  or any prior local `runs/` draft.
 - Use a natural developer voice and avoid generic AI phrasing.
 - Start with a strong, specific hook.
 - Use short paragraphs and bullets only when they improve clarity.
@@ -68,9 +79,11 @@ Before any publishing action, revise the draft once using this checklist:
 - Every claim is supportable and no personal experience was invented.
 - The language sounds human, specific, and non-repetitive.
 - Paragraphs are short, formatting is clean, and there are 3-5 hashtags.
-- The content is not substantially similar to a prior file in `runs/`.
+- Uniqueness re-check passed: not the same theme/hook/claim as any prior
+  `runs/**/post*.md` (rewording does not count as new).
 
-If the draft fails any item, rewrite it. Save only the approved version.
+If the draft fails any item, rewrite it with a different angle or topic. Save
+only the approved version.
 
 ## Dry run
 

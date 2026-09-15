@@ -1,0 +1,31 @@
+---
+description: Never create LinkedIn posts that duplicate prior runs/ drafts (theme, hook, or claims).
+alwaysApply: true
+---
+
+# LinkedIn posts — no duplicates
+
+Before drafting any LinkedIn post (including dry runs), search existing `runs/**/post*.md`.
+
+## Block if any prior post already has
+
+- The same core claim or takeaway (reworded counts)
+- The same hook idea (e.g. “AI did not start with ChatGPT”)
+- The same topic + angle (e.g. another History-of-AI timeline recap)
+- A compressed remake of an existing series episode
+
+Exact wording match is not required. Theme overlap is enough to reject.
+
+## Required workflow
+
+1. Grep/search `runs/` for the intended hook, claim, and key terms.
+2. Skim recent and series posts if the topic is History of AI, full-stack, or a recurring theme.
+3. Only then draft a **new** angle.
+4. If the idea is already covered, pick a different topic — do not rewrite the same post.
+
+## Examples
+
+- Bad: New post “ChatGPT is not year zero of AI” when `runs/2026-08-28/post.md` already says AI did not start with ChatGPT.
+- Good: Same sheet source, but a unused angle (e.g. MYCIN demo≠production, Chinchilla, ELIZA Effect) that no prior `post*.md` covers.
+
+Never ask the user to remind you; always check `runs/` first.
